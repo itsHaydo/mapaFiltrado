@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mapa de viviendas en California</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div style="position: fixed; top: 10px; right: 10px; z-index: 1000; background-color: white; padding: 10px; border: 1px solid black;">
+    <h4>Filtros</h4>
+    <label for="filter-select">Seleccione el filtro:</label>
+    <select id="filter-select">
+        <option value="all">Mostrar todo</option>
+        <option value="inland">Mostrar lejos del mar</option>
+        <option value="near_bay">Mostrar cerca del bahías</option>
+        <option value="very_near_bay">Mostrar muy cerca del mar</option>
+        <option value="island">Mostrar en isla</option>
+    </select>
+    <button id="update-map-button">Actualizar mapa</button>
+</div>
+
+<div id="map">
+    {{ mapa | safe }}
+</div>
+
+<script>
+    $(document).ready(function () {
+    $('#update-map-button').click(function () {
+        var selectedFilter = $('#filter-select').val();
+        $.ajax({
+            type: 'POST',
+            url: '/update_map',
+            data: {filter: selectedFilter},
+            success: function (response) {
+                var map = $('#map').html(response);
+                map.html(response);
+            }
+        });
+    });
+});
+
+</script>
+</body>
+</html>
