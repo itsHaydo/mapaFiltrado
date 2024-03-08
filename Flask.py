@@ -4,6 +4,8 @@ import pandas as pd
 import folium
 from folium.plugins import MarkerCluster
 
+from main import contenido
+
 app = Flask(__name__)
 
 @app.route('/update_map', methods=['POST'])

@@ -24,7 +24,7 @@ def contenido(age, rooms, bedrooms, pop, households, income, value, proximity):
 
 @app.route('/')
 def index():
-    mapa = folium.Map(location=[datos['Latitude'].mean(), datos['Longitude'].mean()], zoom_start=8)
+    mapa = folium.Map(location=[datos['Latitude'].mean(), datos['Longitude'].mean()], zoom_start=5)
     cluster = MarkerCluster().add_to(mapa)
 
     for i, (latitud, longitud, age, rooms, bedrooms, pop, households, income, value, proximity) in enumerate(
