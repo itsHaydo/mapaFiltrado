@@ -7,14 +7,63 @@
 <body>
 <div style="position: fixed; top: 10px; right: 10px; z-index: 1000; background-color: white; padding: 10px; border: 1px solid black;">
     <h4>Filtros</h4>
-    <label for="filter-select">Seleccione el filtro:</label>
-    <select id="filter-select">
+    <label for="filter-select-age">Edad media:</label>
+    <select id="filter-select-age">
+        <option value="all">Mostrar todo</option>
+        <option value="inland">1.0 - 10.0</option>
+        <option value="near_bay">11.0 - 20.0</option>
+        <option value="very_near_bay">21.0 - 30.0</option>
+        <option value="island">31.0 - 40.0</option>
+        <option value="island">41.0 - 50.0</option>
+        <option value="island">51.0 - 60.0</option>
+    </select>
+    <br>
+
+    <label for="filter-select-rooms">Total de cuartos:</label>
+    <select id="filter-select-rooms">
+        <option value="all">Mostrar todo</option>
+        <option value="inland">1 - 7000</option>
+        <option value="near_bay">7001 - 14000</option>
+        <option value="very_near_bay">14001 - 21000</option>
+        <option value="island">21001 - 28000</option>
+        <option value="island">28001 - 35000</option>
+        <option value="island">35001 - 42000</option>
+    </select>
+    <br>
+
+    <label for="filter-select-bedrooms">Total de cuartos:</label>
+    <select id="filter-select-bedrooms">
+        <option value="all">Mostrar todo</option>
+        <option value="inland">1 - 1500</option>
+        <option value="near_bay">1501 - 3000</option>
+        <option value="very_near_bay">3001 - 4500</option>
+        <option value="island">4501 - 6000</option>
+        <option value="island">6001 - 7500</option>
+    </select>
+    <br>
+
+    <label for="filter-select-population">Población:</label>
+    <select id="filter-select-population">
+        <option value="all">Mostrar todo</option>
+        <option value="inland">1 - 5000</option>
+        <option value="near_bay">5001 - 10000</option>
+        <option value="very_near_bay">10001 - 15000</option>
+        <option value="island">15001 - 20000</option>
+        <option value="island">25001 - 30000</option>
+        <option value="island">35001 - 40000</option>
+    </select>
+    <br>
+
+    <label for="filter-select-ocean">Proximidad al oceano:</label>
+    <select id="filter-select-ocean">
         <option value="all">Mostrar todo</option>
         <option value="inland">Mostrar lejos del mar</option>
         <option value="near_bay">Mostrar cerca del bahías</option>
         <option value="very_near_bay">Mostrar muy cerca del mar</option>
         <option value="island">Mostrar en isla</option>
     </select>
+
+
     <button id="update-map-button">Actualizar mapa</button>
 </div>
 
