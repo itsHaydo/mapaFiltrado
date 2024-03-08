@@ -24,7 +24,7 @@ def contenido(age, rooms, bedrooms, pop, households, income, value, proximity):
 
 @app.route('/')
 def index():
-    mapa = folium.Map(location=[datos['Latitude'].mean(), datos['Longitude'].mean()], zoom_start=5)
+    mapa = folium.Map(location=[datos['Latitude'].mean(), datos['Longitude'].mean()], zoom_start=8)
     cluster = MarkerCluster().add_to(mapa)
 
     for i, (latitud, longitud, age, rooms, bedrooms, pop, households, income, value, proximity) in enumerate(
@@ -42,32 +42,51 @@ def index():
 
     return render_template('index.html', mapa=mapa._repr_html_())
 
+    '''
+        selected_age_filter = request.form['age_filter']
+    selected_rooms_filter = request.form['rooms_filter']
+    selected_bedrooms_filter = request.form['bedrooms_filter']
+    selected_population_filter = request.form['population_filter']
+    selected_households_filter = request.form['households_filter']
+    selected_median_income_filter = request.form['median_income_filter']
+    selected_median_house_value_filter = request.form['median_house_value_filter']
+    :return: 
+    '''
 
 @app.route('/update_map', methods=['POST'])
 def update_map():
-    selected_filter = request.form['filter']
+    selected_age_filter = request.form['age_filter']
+    selected_bedrooms_filter = request.form['bedrooms_filter']
+    selected_ocean_filter = request.form['ocean_filter']
 
-    if selected_filter == 'all':
-        filtered_data = datos
-    elif selected_filter == 'inland':
-        filtered_data = datos[datos['Ocean Proximity'] == 'INLAND']
-    elif selected_filter == 'near_bay':
-        filtered_data = datos[datos['Ocean Proximity'] == 'NEAR BAY']
-    elif selected_filter == 'very_near_bay':
-        filtered_data = datos[datos['Ocean Proximity'] == '<1H OCEAN']  # Adjust as needed
-    elif selected_filter == 'island':
-        filtered_data = datos[datos['Ocean Proximity'] == 'ISLAND']
-    else:
-        filtered_data = datos
+    filtered_data = datos
 
-    mapa = folium.Map(location=[filtered_data['Latitude'].mean(), filtered_data['Longitude'].mean()],
-                                  zoom_start=8)
+    if selected_age_filter != 'all':
+        age_range = selected_age_filter.split(' - ')
+        filtered_data = filtered_data[(filtered_data['Age'] >= float(age_range[0])) & (filtered_data['Age'] <= float(age_range[1]))]
+
+    if selected_bedrooms_filter != 'all':
+        bedrooms_range = selected_bedrooms_filter.split(' - ')
+        filtered_data = filtered_data[(filtered_data['Bedrooms'] >= int(bedrooms_range[0])) & (filtered_data['Bedrooms'] <= int(bedrooms_range[1]))]
+
+    ocean_filter_mapping = {
+        'inland': 'INLAND',
+        'near_bay': 'NEAR BAY',
+        'very_near_bay': '<1H OCEAN',
+        'island': 'ISLAND'
+    }
+
+    selected_ocean_filter = ocean_filter_mapping.get(selected_ocean_filter, selected_ocean_filter)
+    filtered_data = filtered_data[filtered_data['Ocean Proximity'] == selected_ocean_filter]
+
+    mapa = folium.Map(location=[filtered_data['Latitude'].mean(), filtered_data['Longitude'].mean()], zoom_start=8)
     cluster = MarkerCluster().add_to(mapa)
 
     for i, (latitud, longitud, age, rooms, bedrooms, pop, households, income, value, proximity) in enumerate(
             zip(filtered_data['Latitude'], filtered_data['Longitude'], filtered_data['Age'], filtered_data['Rooms'],
                 filtered_data['Bedrooms'], filtered_data['Population'], filtered_data['Households'],
                 filtered_data['Income'], filtered_data['Value'], filtered_data['Ocean Proximity'])):
+
         popup = contenido(age, rooms, bedrooms, pop, households, income, value, proximity)
 
         folium.Marker(
