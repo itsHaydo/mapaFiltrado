@@ -15,4 +15,4 @@ def obtener_rangos_de_datos(archivo_csv, nombre_columna, intervalo):
         print(f"{rango}: {cantidad}")
 
 # Ejemplo de uso:
-obtener_rangos_de_datos('CSV\housing.csv', 'population', 5000)
+obtener_rangos_de_datos('CSV\housing.csv', 'median_income', 4)
