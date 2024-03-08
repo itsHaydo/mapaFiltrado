@@ -41,29 +41,9 @@ def update_map():
         age_range = selected_age_filter.split(' - ')
         filtered_data = filtered_data[(filtered_data['Age'] >= float(age_range[0])) & (filtered_data['Age'] <= float(age_range[1]))]
 
-    if selected_rooms_filter != 'all':
-        rooms_range = selected_rooms_filter.split(' - ')
-        filtered_data = filtered_data[(filtered_data['Rooms'] >= int(rooms_range[0])) & (filtered_data['Rooms'] <= int(rooms_range[1]))]
-
     if selected_bedrooms_filter != 'all':
         bedrooms_range = selected_bedrooms_filter.split(' - ')
         filtered_data = filtered_data[(filtered_data['Bedrooms'] >= int(bedrooms_range[0])) & (filtered_data['Bedrooms'] <= int(bedrooms_range[1]))]
-
-    if selected_population_filter != 'all':
-        population_range = selected_population_filter.split(' - ')
-        filtered_data = filtered_data[(filtered_data['Population'] >= int(population_range[0])) & (filtered_data['Population'] <= int(population_range[1]))]
-
-    if selected_households_filter != 'all':
-        households_range = selected_households_filter.split(' - ')
-        filtered_data = filtered_data[(filtered_data['Households'] >= int(households_range[0])) & (filtered_data['Households'] <= int(households_range[1]))]
-
-    if selected_median_income_filter != 'all':
-        income_range = selected_median_income_filter.split(' - ')
-        filtered_data = filtered_data[(filtered_data['Income'] >= float(income_range[0])) & (filtered_data['Income'] <= float(income_range[1]))]
-
-    if selected_median_house_value_filter != 'all':
-        value_range = selected_median_house_value_filter.split(' - ')
-        filtered_data = filtered_data[(filtered_data['Value'] >= float(value_range[0])) & (filtered_data['Value'] <= float(value_range[1]))]
 
     if selected_ocean_filter != 'all':
         filtered_data = filtered_data[filtered_data['Ocean Proximity'] == selected_ocean_filter]
