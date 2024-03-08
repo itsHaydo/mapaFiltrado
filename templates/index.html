@@ -7,14 +7,29 @@
 <body>
 <div style="position: fixed; top: 10px; right: 10px; z-index: 1000; background-color: white; padding: 10px; border: 1px solid black;">
     <h4>Filtros</h4>
-    <label for="filter-select">Seleccione el filtro:</label>
     <select id="filter-select">
+        <option value="" disabled selected>Selecciona un filtro de cercania al mar</option>
         <option value="all">Mostrar todo</option>
-        <option value="inland">Mostrar lejos del mar</option>
-        <option value="near_bay">Mostrar cerca del bahías</option>
+        <option value="inland">Mostrar alejado del mar</option>
+        <option value="near_bay">Mostrar cerca de bahías</option>
         <option value="very_near_bay">Mostrar muy cerca del mar</option>
         <option value="island">Mostrar en isla</option>
     </select>
+
+    <select id="filter-select2">
+        <option value="" disabled selected>Selecciona un filtro de precio entre casas</option>
+        <option value="precio-grande">Arriba de $350,000 dolares</option>
+        <option value="precio-mediano">Entre 180,000 - 349,999</option>
+        <option value="precio-">Abajo de 180,000</option>
+    </select>
+
+    <select id="filter-select3">
+        <option value="" disabled selected>Selecciona un filtro de edad en casas</option>
+        <option value="edad-grande">Arriba de 35 años edad de la casa</option>
+        <option value="edad-mediano">Entre de 34 - 18 años edad de la casa</option>
+        <option value="edad-pequeña">Abajo de 18 años de edad de la casa</option>
+    </select>
+
     <button id="update-map-button">Actualizar mapa</button>
 </div>
 
@@ -25,11 +40,13 @@
 <script>
     $(document).ready(function () {
     $('#update-map-button').click(function () {
-        var selectedFilter = $('#filter-select').val();
+        var selectedFilter1 = $('#filter-select').val();
+        var selectedFilter2 = $('#filter-select2').val();
+        var selectedFilter3 = $('#filter-select3').val();
         $.ajax({
             type: 'POST',
             url: '/update_map',
-            data: {filter: selectedFilter},
+            data: {filter1: selectedFilter1, filter2: selectedFilter2, filter3: selectedFilter3},
             success: function (response) {
                 var map = $('#map').html(response);
                 map.html(response);
@@ -37,7 +54,6 @@
         });
     });
 });
-
 </script>
 </body>
 </html>
