@@ -3,6 +3,23 @@
 <head>
     <title>Mapa de viviendas en California</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        select, button {
+            padding: 5px;
+            font-size: 16px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
 <div style="position: fixed; top: 10px; right: 10px; z-index: 1000; background-color: white; padding: 10px; border: 1px solid black;">
@@ -15,21 +32,21 @@
         <option value="very_near_bay">Mostrar muy cerca del mar</option>
         <option value="island">Mostrar en isla</option>
     </select>
-
+    <br><br>
     <select id="filter-select2">
         <option value="" disabled selected>Selecciona un filtro de precio entre casas</option>
         <option value="precio-grande">Arriba de $350,000 dolares</option>
         <option value="precio-mediano">Entre 180,000 - 349,999</option>
         <option value="precio-">Abajo de 180,000</option>
     </select>
-
+    <br><br>
     <select id="filter-select3">
         <option value="" disabled selected>Selecciona un filtro de edad en casas</option>
         <option value="edad-grande">Arriba de 35 años edad de la casa</option>
         <option value="edad-mediano">Entre de 34 - 18 años edad de la casa</option>
         <option value="edad-pequeña">Abajo de 18 años de edad de la casa</option>
     </select>
-
+    <br><br>
     <button id="update-map-button">Actualizar mapa</button>
 </div>
 
@@ -47,6 +64,21 @@
             type: 'POST',
             url: '/update_map',
             data: {filter1: selectedFilter1, filter2: selectedFilter2, filter3: selectedFilter3},
+            success: function (response) {
+                var map = $('#map').html(response);
+                map.html(response);
+            }
+        });
+    });
+
+    $('#clear-filters-button').click(function () {
+        $('#filter-select').val('');
+        $('#filter-select2').val('');
+        $('#filter-select3').val('');
+        $.ajax({
+            type: 'POST',
+            url: '/update_map',
+            data: {filter1: '', filter2: '', filter3: ''},
             success: function (response) {
                 var map = $('#map').html(response);
                 map.html(response);

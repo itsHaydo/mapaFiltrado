@@ -1,8 +1,8 @@
-
 from flask import Flask, render_template, request
 import pandas as pd
 import folium
 from folium.plugins import MarkerCluster
+from itertools import combinations
 
 app = Flask(__name__)
 
@@ -94,9 +94,42 @@ def update_map():
             icon=folium.Icon(color='blue')
         ).add_to(cluster)
 
+        # Agregar las aristas
+        if i < len(filtered_data) - 1:
+            next_latitud, next_longitud = filtered_data.iloc[i + 1]['Latitude'], filtered_data.iloc[i + 1]['Longitude']
+            folium.PolyLine(locations=[[latitud, longitud], [next_latitud, next_longitud]], color='red').add_to(mapa)
+
+
     return mapa._repr_html_()
+
+'''
+    # Agregar aristas entre puntos cercanos al mar en color azul
+    ocean_proximity_groups = filtered_data.groupby('Ocean Proximity')
+    for name, group in ocean_proximity_groups:
+        if name in ['NEAR BAY', '<1H OCEAN', 'ISLAND']:
+            points = group[['Latitude', 'Longitude']].values.tolist()
+            for pair in combinations(points, 2):
+                folium.PolyLine(locations=pair, color='blue').add_to(mapa)
+
+    # Agregar aristas entre puntos con valores de casa similares en color rosa
+    value_groups = filtered_data.groupby(pd.cut(filtered_data['Value'], bins=3, labels=['low', 'medium', 'high']))
+    for name, group in value_groups:
+        if name in ['low', 'medium', 'high']:
+            points = group[['Latitude', 'Longitude']].values.tolist()
+            for pair in combinations(points, 2):
+                folium.PolyLine(locations=pair, color='pink').add_to(mapa)
+
+    # Agregar aristas entre puntos con edades de casa similares en color rojo
+    age_groups = filtered_data.groupby(pd.cut(filtered_data['Age'], bins=3, labels=['young', 'middle-aged', 'old']))
+    for name, group in age_groups:
+        if name in ['young', 'middle-aged', 'old']:
+            points = group[['Latitude', 'Longitude']].values.tolist()
+            for pair in combinations(points, 2):
+                folium.PolyLine(locations=pair, color='red').add_to(mapa)
+'''
+
+
 
 
 if __name__ == '__main__':
     app.run(debug=True)
-
